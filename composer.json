@@ -1,0 +1,21 @@
+{
+    "name": "rector/php-parser-nodes-docs",
+    "require": {
+        "php": "^8.0",
+        "symfony/console": "^5.2",
+        "symfony/dependency-injection": "^5.2",
+        "symplify/symplify-kernel": "^9.1",
+        "symplify/smart-file-system": "^9.1",
+        "symplify/package-builder": "^9.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rector\\PhpParserNodesDocs\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rector\\PhpParserNodesDocs\\Tests\\": "tests"
+        }
+    }
+}
