@@ -25,5 +25,10 @@
     "require-dev": {
         "symplify/easy-coding-standard": "^9.1",
         "phpstan/phpstan": "^0.12.73"
+    },
+    "scripts": {
+        "check-cs": "vendor/bin/ecs check --ansi",
+        "fix-cs": "vendor/bin/ecs check --fix --ansi",
+        "phpstan": "vendor/bin/phpstan analyse --ansi"
     }
 }
