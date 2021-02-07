@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Rector\PhpParserNodesDocs;
 
 use PhpParser\Node;
-use Rector\Core\Exception\ShouldNotHappenException;
-use Rector\Core\PhpParser\Printer\BetterStandardPrinter;
+use PhpParser\PrettyPrinter\Standard;
 use Rector\PhpParserNodesDocs\ValueObject\NodeCodeSample;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -19,14 +18,14 @@ final class NodeCodeSampleProvider
     private $smartFinder;
 
     /**
-     * @var BetterStandardPrinter
+     * @var Standard
      */
-    private $betterStandardPrinter;
+    private $standard;
 
-    public function __construct(SmartFinder $smartFinder, BetterStandardPrinter $betterStandardPrinter)
+    public function __construct(SmartFinder $smartFinder, Standard $standard)
     {
         $this->smartFinder = $smartFinder;
-        $this->betterStandardPrinter = $betterStandardPrinter;
+        $this->standard = $standard;
     }
 
     /**
@@ -44,7 +43,7 @@ final class NodeCodeSampleProvider
 
             $nodeClass = get_class($node);
 
-            $printedContent = $this->betterStandardPrinter->print($node);
+            $printedContent = $this->standard->prettyPrint($node);
             $nodeCodeSamplesByNodeClass[$nodeClass][] = new NodeCodeSample(
                 $fileInfo->getContents(),
                 $printedContent

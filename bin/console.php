@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\Console\Input\ArgvInput;
+use Rector\PhpParserNodesDocs\HttpKernel\PhpParserNodesDocsKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(MonorepoBuilderKernel::class);
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(PhpParserNodesDocsKernel::class);
 $kernelBootAndApplicationRun->run();

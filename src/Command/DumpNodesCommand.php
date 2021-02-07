@@ -58,7 +58,7 @@ final class DumpNodesCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('[DOCS] Dump overview of all Nodes');
+        $this->setDescription('Dump nodes overview');
 
         $this->addOption(
             self::OUTPUT_FILE,

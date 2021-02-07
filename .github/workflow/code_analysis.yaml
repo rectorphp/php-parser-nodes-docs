@@ -11,8 +11,11 @@ jobs:
                 actions:
                     -
                         name: 'Validate'
-                        # this is very slow, so it has to be in own workflow
                         run: composer validate --strict
+
+                    -
+                        name: 'Bare Run'
+                        run: bin/console
 
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest
@@ -20,11 +23,10 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
-            # see https://github.com/shivammathur/setup-php
             -
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 7.3
+                    php-version: 8.0
                     coverage: none
 
             -   uses: "ramsey/composer-install@v1"
