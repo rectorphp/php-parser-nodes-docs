@@ -1,5 +1,7 @@
 {
     "name": "rector/php-parser-nodes-docs",
+    "license": "MIT",
+    "description": "Generate visual docs for php-parser nodes - the first step to master AST",
     "require": {
         "php": "^8.0",
         "symfony/console": "^5.2",
