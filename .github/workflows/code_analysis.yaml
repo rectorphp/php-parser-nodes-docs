@@ -17,6 +17,14 @@ jobs:
                         name: 'Bare Run'
                         run: bin/console
 
+                    -
+                        name: 'ECS'
+                        run: composer check-cs
+
+                    -
+                        name: 'PHPStan'
+                        run: composer phpstan
+
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest
 

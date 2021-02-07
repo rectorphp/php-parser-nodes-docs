@@ -10,7 +10,13 @@
         "symplify/smart-file-system": "^9.1",
         "symplify/package-builder": "^9.1",
         "symplify/console-package-builder": "^9.1",
-        "nikic/php-parser": "^4.10"
+        "nikic/php-parser": "^4.10.4"
+    },
+    "require-dev": {
+        "symplify/easy-coding-standard": "^9.1",
+        "phpstan/phpstan": "^0.12.73",
+        "phpunit/phpunit": "^9.5",
+        "symplify/phpstan-extensions": "^9.1"
     },
     "autoload": {
         "psr-4": {
@@ -22,13 +28,9 @@
             "Rector\\PhpParserNodesDocs\\Tests\\": "tests"
         }
     },
-    "require-dev": {
-        "symplify/easy-coding-standard": "^9.1",
-        "phpstan/phpstan": "^0.12.73"
-    },
     "scripts": {
         "check-cs": "vendor/bin/ecs check --ansi",
         "fix-cs": "vendor/bin/ecs check --fix --ansi",
-        "phpstan": "vendor/bin/phpstan analyse --ansi"
+        "phpstan": "vendor/bin/phpstan analyse --ansi --error-format symplify"
     }
 }

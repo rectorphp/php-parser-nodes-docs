@@ -24,6 +24,7 @@ final class NodeInfo
     private $nodeCodeSamples = [];
 
     /**
+     * @param class-string<\PhpParser\Node> $class
      * @param NodeCodeSample[] $nodeCodeSamples
      */
     public function __construct(string $class, array $nodeCodeSamples = [])

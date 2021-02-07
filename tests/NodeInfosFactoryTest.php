@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rector\PhpParserNodesDocs\Tests;
 
-use Rector\Core\HttpKernel\RectorKernel;
+use Rector\PhpParserNodesDocs\HttpKernel\PhpParserNodesDocsKernel;
 use Rector\PhpParserNodesDocs\NodeInfosFactory;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
@@ -17,7 +17,7 @@ final class NodeInfosFactoryTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(RectorKernel::class);
+        $this->bootKernel(PhpParserNodesDocsKernel::class);
 
         $this->nodeInfosFactory = $this->getService(NodeInfosFactory::class);
     }

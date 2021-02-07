@@ -6,6 +6,7 @@ namespace Rector\PhpParserNodesDocs;
 
 use PhpParser\Node;
 use PhpParser\PrettyPrinter\Standard;
+use Rector\PhpParserNodesDocs\Exception\ShouldNotHappenException;
 use Rector\PhpParserNodesDocs\ValueObject\NodeCodeSample;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -29,7 +30,7 @@ final class NodeCodeSampleProvider
     }
 
     /**
-     * @return array<string, NodeCodeSample[]>
+     * @return array<class-string<Node>, array<int, NodeCodeSample>>
      */
     public function provide(): array
     {
@@ -43,7 +44,7 @@ final class NodeCodeSampleProvider
 
             $nodeClass = get_class($node);
 
-            $printedContent = $this->standard->prettyPrint($node);
+            $printedContent = $this->standard->prettyPrint([$node]);
             $nodeCodeSamplesByNodeClass[$nodeClass][] = new NodeCodeSample(
                 $fileInfo->getContents(),
                 $printedContent
