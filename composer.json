@@ -21,5 +21,9 @@
         "psr-4": {
             "Rector\\PhpParserNodesDocs\\Tests\\": "tests"
         }
+    },
+    "require-dev": {
+        "symplify/easy-coding-standard": "^9.1",
+        "phpstan/phpstan": "^0.12.73"
     }
 }
