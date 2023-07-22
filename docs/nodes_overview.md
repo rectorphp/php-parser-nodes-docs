@@ -1191,6 +1191,40 @@ declare(strict_types=1);
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Scalar\String_;
+
+$variable = new Variable('someObject');
+
+$args = [];
+$args[] = new Arg(new String_('yes'));
+$args[] = new Arg(
+    value: new Variable('maybe'),
+    name: new Identifier(
+        name: 'argName'
+    )
+);
+
+$call = new MethodCall($variable, 'methodName', $args);
+$callNext = new MethodCall($call, 'nextMethodName');
+```
+
+↓
+
+```php
+$someObject->methodName('yes', argName: $maybe)->nextMethodName()
+```
+
+<br>
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\String_;
 
 $variable = new Variable('someObject');
