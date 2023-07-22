@@ -2,11 +2,10 @@ parameters:
     level: max
 
     paths:
-        - config
         - src
         - tests
 
     ignoreErrors:
         -
-            message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
+            message: '#Cannot cast (.*?) to string#'
             path: src/Command/DumpNodesCommand.php

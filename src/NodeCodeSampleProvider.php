@@ -6,27 +6,16 @@ namespace Rector\PhpParserNodesDocs;
 
 use PhpParser\Node;
 use PhpParser\PrettyPrinter\Standard;
-use Rector\PhpParserNodesDocs\Exception\ShouldNotHappenException;
+use Rector\PhpParserNodesDocs\Finder\PhpFilesFinder;
 use Rector\PhpParserNodesDocs\ValueObject\NodeCodeSample;
-use Symplify\SmartFileSystem\Finder\SmartFinder;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Webmozart\Assert\Assert;
 
 final class NodeCodeSampleProvider
 {
-    /**
-     * @var SmartFinder
-     */
-    private $smartFinder;
-
-    /**
-     * @var Standard
-     */
-    private $standard;
-
-    public function __construct(SmartFinder $smartFinder, Standard $standard)
-    {
-        $this->smartFinder = $smartFinder;
-        $this->standard = $standard;
+    public function __construct(
+        private readonly Standard $standard,
+        private readonly PhpFilesFinder $phpFilesFinder,
+    ) {
     }
 
     /**
@@ -34,19 +23,25 @@ final class NodeCodeSampleProvider
      */
     public function provide(): array
     {
-        $snippetFileInfos = $this->smartFinder->find([__DIR__ . '/../snippet'], '*.php');
+        $phpFilePaths = $this->phpFilesFinder->findPhpFiles([__DIR__ . '/../snippet']);
 
         $nodeCodeSamplesByNodeClass = [];
 
-        foreach ($snippetFileInfos as $fileInfo) {
-            $node = include $fileInfo->getRealPath();
-            $this->ensureReturnsNodeObject($node, $fileInfo);
+        foreach ($phpFilePaths as $phpFilePath) {
+            /** @var Node $node */
+            $node = include $phpFilePath;
 
-            $nodeClass = get_class($node);
+            /** @var string $fileContents */
+            $fileContents = file_get_contents($phpFilePath);
+
+            Assert::isInstanceOf($node, Node::class, $phpFilePath);
+
+            $nodeClass = $node::class;
 
             $printedContent = $this->standard->prettyPrint([$node]);
+
             $nodeCodeSamplesByNodeClass[$nodeClass][] = new NodeCodeSample(
-                $fileInfo->getContents(),
+                $fileContents,
                 $printedContent
             );
         }
@@ -54,18 +49,5 @@ final class NodeCodeSampleProvider
         ksort($nodeCodeSamplesByNodeClass);
 
         return $nodeCodeSamplesByNodeClass;
-    }
-
-    /**
-     * @param mixed $node
-     */
-    private function ensureReturnsNodeObject($node, SmartFileInfo $fileInfo): void
-    {
-        if ($node instanceof Node) {
-            return;
-        }
-
-        $message = sprintf('Snippet "%s" must return a node object', $fileInfo->getPathname());
-        throw new ShouldNotHappenException($message);
     }
 }

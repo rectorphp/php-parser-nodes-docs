@@ -10,13 +10,14 @@
         "php": "^8.1",
         "symfony/console": "^6.3",
         "nikic/php-parser": "^4.16",
-        "illuminate/container": "^10.15"
+        "illuminate/container": "^10.15",
+        "webmozart/assert": "^1.11"
     },
     "require-dev": {
         "symplify/easy-coding-standard": "^11.5",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.2",
-        "rector/rector": "*"
+        "rector/rector": "^0.17.6"
     },
     "autoload": {
         "psr-4": {
