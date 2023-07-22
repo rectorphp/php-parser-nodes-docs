@@ -34,7 +34,8 @@ final class NodeCodeSampleProvider
             /** @var string $fileContents */
             $fileContents = file_get_contents($phpFilePath);
 
-            Assert::isInstanceOf($node, Node::class, $phpFilePath);
+            $errorMessage = sprintf('The "%s" file must return "%s" instance ', $phpFilePath, Node::class);
+            Assert::isInstanceOf($node, Node::class, $errorMessage);
 
             $nodeClass = $node::class;
 
