@@ -4,33 +4,24 @@ declare(strict_types=1);
 
 namespace Rector\PhpParserNodesDocs\ValueObject;
 
+use PhpParser\Node;
 use ReflectionClass;
 
 final class NodeInfo
 {
     /**
-     * @var string
-     */
-    private $class;
-
-    /**
      * @var string[]
      */
-    private $publicPropertyInfos = [];
+    private array $publicPropertyInfos = [];
 
     /**
-     * @var NodeCodeSample[]
-     */
-    private $nodeCodeSamples = [];
-
-    /**
-     * @param class-string<\PhpParser\Node> $class
+     * @param class-string<Node> $class
      * @param NodeCodeSample[] $nodeCodeSamples
      */
-    public function __construct(string $class, array $nodeCodeSamples = [])
-    {
-        $this->class = $class;
-
+    public function __construct(
+        private readonly string $class,
+        private readonly array $nodeCodeSamples = []
+    ) {
         $reflectionClass = new ReflectionClass($class);
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
             if ($reflectionProperty->name === 'attributes') {
@@ -39,7 +30,6 @@ final class NodeInfo
 
             $this->publicPropertyInfos[] = ' * `$' . $reflectionProperty->name . '` - `' . $reflectionProperty->getDocComment() . '`';
         }
-        $this->nodeCodeSamples = $nodeCodeSamples;
     }
 
     public function getClass(): string

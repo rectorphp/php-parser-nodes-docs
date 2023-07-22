@@ -12,20 +12,10 @@ use Rector\PhpParserNodesDocs\ValueObject\NodeInfo;
  */
 final class NodeInfosFactory
 {
-    /**
-     * @var NodeCodeSampleProvider
-     */
-    private $nodeCodeSampleProvider;
-
-    /**
-     * @var NodeInfoSorter
-     */
-    private $nodeInfoSorter;
-
-    public function __construct(NodeCodeSampleProvider $nodeCodeSampleProvider, NodeInfoSorter $nodeInfoSorter)
-    {
-        $this->nodeCodeSampleProvider = $nodeCodeSampleProvider;
-        $this->nodeInfoSorter = $nodeInfoSorter;
+    public function __construct(
+        private readonly NodeCodeSampleProvider $nodeCodeSampleProvider,
+        private readonly NodeInfoSorter $nodeInfoSorter
+    ) {
     }
 
     /**

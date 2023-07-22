@@ -6,15 +6,9 @@ namespace Rector\PhpParserNodesDocs\ValueObject;
 
 final class NodeCodeSample
 {
-    /**
-     * @var string
-     */
-    private $phpCode;
+    private readonly string $phpCode;
 
-    /**
-     * @var string
-     */
-    private $printedContent;
+    private readonly string $printedContent;
 
     public function __construct(string $phpCode, string $printedContent)
     {

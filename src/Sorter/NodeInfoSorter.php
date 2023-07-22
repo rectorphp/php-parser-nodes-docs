@@ -14,9 +14,7 @@ final class NodeInfoSorter
      */
     public function sortNodeInfosByClass(array $nodeInfos): array
     {
-        usort($nodeInfos, function (NodeInfo $firstNodeInfo, NodeInfo $secondNodeInfo): int {
-            return $firstNodeInfo->getClass() <=> $secondNodeInfo->getClass();
-        });
+        usort($nodeInfos, fn (NodeInfo $firstNodeInfo, NodeInfo $secondNodeInfo): int => $firstNodeInfo->getClass() <=> $secondNodeInfo->getClass());
 
         return $nodeInfos;
     }

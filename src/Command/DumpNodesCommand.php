@@ -10,10 +10,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class DumpNodesCommand extends Command
 {
@@ -22,42 +18,16 @@ final class DumpNodesCommand extends Command
      */
     private const OUTPUT_FILE = 'output-file';
 
-    /**
-     * @var MarkdownNodeInfosPrinter
-     */
-    private $markdownNodeInfosPrinter;
-
-    /**
-     * @var NodeInfosFactory
-     */
-    private $nodeInfosFactory;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
     public function __construct(
-        MarkdownNodeInfosPrinter $markdownNodeInfosPrinter,
-        NodeInfosFactory $nodeInfosFactory,
-        SmartFileSystem $smartFileSystem,
-        SymfonyStyle $symfonyStyle
+        private readonly MarkdownNodeInfosPrinter $markdownNodeInfosPrinter,
+        private readonly NodeInfosFactory $nodeInfosFactory,
     ) {
-        $this->markdownNodeInfosPrinter = $markdownNodeInfosPrinter;
-        $this->nodeInfosFactory = $nodeInfosFactory;
-        $this->smartFileSystem = $smartFileSystem;
-        $this->symfonyStyle = $symfonyStyle;
-
         parent::__construct();
     }
 
     protected function configure(): void
     {
+        $this->setName('dump-nodes');
         $this->setDescription('Dump nodes overview');
 
         $this->addOption(
@@ -74,18 +44,16 @@ final class DumpNodesCommand extends Command
         $outputFile = (string) $input->getOption(self::OUTPUT_FILE);
 
         $nodeInfos = $this->nodeInfosFactory->create();
-
         $printedContent = $this->markdownNodeInfosPrinter->print($nodeInfos);
-        $this->smartFileSystem->dumpFile($outputFile, $printedContent);
 
-        $outputFileFileInfo = new SmartFileInfo($outputFile);
-        $message = sprintf(
+        file_put_contents($outputFile, $printedContent);
+
+        $output->writeln(sprintf(
             'Documentation for "%d" PhpParser Nodes was generated to "%s"',
             count($nodeInfos),
-            $outputFileFileInfo->getRelativeFilePathFromCwd()
-        );
-        $this->symfonyStyle->success($message);
+            $outputFile
+        ));
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }
