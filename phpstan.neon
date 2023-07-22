@@ -1,11 +1,8 @@
-includes:
-    # allows symplify error formatter
-    - vendor/symplify/phpstan-extensions/config/config.neon
-
 parameters:
     level: max
 
     paths:
+        - config
         - src
         - tests
 
@@ -13,5 +10,3 @@ parameters:
         -
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             path: src/Command/DumpNodesCommand.php
-
-        - '#Method Rector\\PhpParserNodesDocs\\NodeCodeSampleProvider\:\:provide\(\) should return array<class\-string<PhpParser\\Node\>, array<int, Rector\\PhpParserNodesDocs\\ValueObject\\NodeCodeSample\>\> but returns array<class\-string, array<int, Rector\\PhpParserNodesDocs\\ValueObject\\NodeCodeSample\>\>#'
