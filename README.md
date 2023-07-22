@@ -29,6 +29,7 @@ CONSTANT_NAME = 'default'
 
  * `$name` - `/** @var Identifier Name */`
  * `$value` - `/** @var Expr Value */`
+ * `$namespacedName` - `/** @var Name|null Namespaced name (if using NameResolver) */`
 
 <br>
 
@@ -168,7 +169,7 @@ fn() => 1
  * `$static` - `/** @var bool */`
  * `$byRef` - `/** @var bool */`
  * `$params` - `/** @var Node\Param[] */`
- * `$returnType` - `/** @var null|Node\Identifier|Node\Name|Node\NullableType|Node\UnionType */`
+ * `$returnType` - `/** @var null|Node\Identifier|Node\Name|Node\ComplexType */`
  * `$expr` - `/** @var Expr */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] */`
 
@@ -937,7 +938,7 @@ func_call($someVariable)
 ### Public Properties
 
  * `$name` - `/** @var Node\Name|Expr Function name */`
- * `$args` - `/** @var Node\Arg[] Arguments */`
+ * `$args` - `/** @var array<Node\Arg|Node\VariadicPlaceholder> Arguments */`
 
 <br>
 
@@ -1165,6 +1166,36 @@ $someObject->methodName()
 
 declare(strict_types=1);
 
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\String_;
+
+$variable = new Variable('someObject');
+
+$args = [];
+$args[] = new Arg(new String_('yes'));
+
+$methodCall = new MethodCall($variable, 'methodName', $args);
+
+$nestedMethodCall = new MethodCall($methodCall, 'nextMethodName');
+
+return $nestedMethodCall;
+```
+
+↓
+
+```php
+$someObject->methodName('yes')->nextMethodName()
+```
+
+<br>
+
+```php
+<?php
+
+declare(strict_types=1);
+
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
@@ -1214,7 +1245,7 @@ $someObject->methodName('yes', 'maybe')
 
  * `$var` - `/** @var Expr Variable holding object */`
  * `$name` - `/** @var Identifier|Expr Method name */`
- * `$args` - `/** @var Arg[] Arguments */`
+ * `$args` - `/** @var array<Arg|VariadicPlaceholder> Arguments */`
 
 <br>
 
@@ -1271,7 +1302,7 @@ new SomeClass()
 ### Public Properties
 
  * `$class` - `/** @var Node\Name|Expr|Node\Stmt\Class_ Class name */`
- * `$args` - `/** @var Node\Arg[] Arguments */`
+ * `$args` - `/** @var array<Arg|VariadicPlaceholder> Arguments */`
 
 <br>
 
@@ -1304,7 +1335,7 @@ $variableName?->methodName()
 
  * `$var` - `/** @var Expr Variable holding object */`
  * `$name` - `/** @var Identifier|Expr Method name */`
- * `$args` - `/** @var Arg[] Arguments */`
+ * `$args` - `/** @var array<Arg|VariadicPlaceholder> Arguments */`
 
 <br>
 
@@ -1401,7 +1432,7 @@ return new StaticCall($fullyQualified, 'methodName');
 
  * `$class` - `/** @var Node\Name|Expr Class name */`
  * `$name` - `/** @var Identifier|Expr Method name */`
- * `$args` - `/** @var Node\Arg[] Arguments */`
+ * `$args` - `/** @var array<Arg|VariadicPlaceholder> Arguments */`
 
 <br>
 
@@ -1592,7 +1623,10 @@ shortName
 
 ### Public Properties
 
- * `$parts` - `/** @var string[] Parts of the name */`
+ * `$parts` - `/**
+     * @var string[] Parts of the name
+     * @deprecated Use getParts() instead
+     */`
  * `$specialClassNames` - ``
 
 <br>
@@ -1621,7 +1655,10 @@ return new FullyQualified('SomeNamespace\ShortName');
 
 ### Public Properties
 
- * `$parts` - `/** @var string[] Parts of the name */`
+ * `$parts` - `/**
+     * @var string[] Parts of the name
+     * @deprecated Use getParts() instead
+     */`
 
 <br>
 
@@ -1680,7 +1717,7 @@ $variableName
 
 ### Public Properties
 
- * `$type` - `/** @var null|Identifier|Name|NullableType|UnionType Type declaration */`
+ * `$type` - `/** @var null|Identifier|Name|ComplexType Type declaration */`
  * `$byRef` - `/** @var bool Whether parameter is passed by reference */`
  * `$variadic` - `/** @var bool Whether this is a variadic argument */`
  * `$var` - `/** @var Expr\Variable|Expr\Error Parameter variable */`
@@ -1940,7 +1977,7 @@ public function methodName()
  * `$byRef` - `/** @var bool Whether to return by reference */`
  * `$name` - `/** @var Node\Identifier Name */`
  * `$params` - `/** @var Node\Param[] Parameters */`
- * `$returnType` - `/** @var null|Node\Identifier|Node\Name|Node\NullableType|Node\UnionType Return type */`
+ * `$returnType` - `/** @var null|Node\Identifier|Node\Name|Node\ComplexType Return type */`
  * `$stmts` - `/** @var Node\Stmt[]|null Statements */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
  * `$magicNames` - ``
@@ -2028,6 +2065,7 @@ final class ClassName extends \ParentClass
  * `$name` - `/** @var Node\Identifier|null Name */`
  * `$stmts` - `/** @var Node\Stmt[] Statements */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
+ * `$namespacedName` - `/** @var Node\Name|null Namespaced name (if using NameResolver) */`
 
 <br>
 
@@ -2264,9 +2302,10 @@ function some_function()
  * `$byRef` - `/** @var bool Whether function returns by reference */`
  * `$name` - `/** @var Node\Identifier Name */`
  * `$params` - `/** @var Node\Param[] Parameters */`
- * `$returnType` - `/** @var null|Node\Identifier|Node\Name|Node\NullableType|Node\UnionType Return type */`
+ * `$returnType` - `/** @var null|Node\Identifier|Node\Name|Node\ComplexType Return type */`
  * `$stmts` - `/** @var Node\Stmt[] Statements */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
+ * `$namespacedName` - `/** @var Node\Name|null Namespaced name (if using NameResolver) */`
 
 <br>
 
@@ -2366,6 +2405,7 @@ interface InterfaceName
  * `$name` - `/** @var Node\Identifier|null Name */`
  * `$stmts` - `/** @var Node\Stmt[] Statements */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
+ * `$namespacedName` - `/** @var Node\Name|null Namespaced name (if using NameResolver) */`
 
 <br>
 
@@ -2473,7 +2513,7 @@ public static $firstProperty, $secondProperty;
 
  * `$flags` - `/** @var int Modifiers */`
  * `$props` - `/** @var PropertyProperty[] Properties */`
- * `$type` - `/** @var null|Identifier|Name|NullableType|UnionType Type declaration */`
+ * `$type` - `/** @var null|Identifier|Name|ComplexType Type declaration */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
 
 <br>
@@ -2742,6 +2782,7 @@ trait TraitName
  * `$name` - `/** @var Node\Identifier|null Name */`
  * `$stmts` - `/** @var Node\Stmt[] Statements */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
+ * `$namespacedName` - `/** @var Node\Name|null Namespaced name (if using NameResolver) */`
 
 <br>
 
@@ -2915,6 +2956,6 @@ string|int
 
 ### Public Properties
 
- * `$types` - `/** @var (Identifier|Name)[] Types */`
+ * `$types` - `/** @var (Identifier|Name|IntersectionType)[] Types */`
 
 <br>

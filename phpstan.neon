@@ -4,8 +4,3 @@ parameters:
     paths:
         - src
         - tests
-
-    ignoreErrors:
-        -
-            message: '#Cannot cast (.*?) to string#'
-            path: src/Command/DumpNodesCommand.php
