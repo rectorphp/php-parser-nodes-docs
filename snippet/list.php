@@ -7,7 +7,7 @@ use PhpParser\Node\Expr\List_;
 use PhpParser\Node\Expr\Variable;
 
 $variable = new Variable('variableName');
-$anotherVariable = new Variable('anoterVariableName');
+$anotherVariable = new Variable('anotherVariableName');
 
 $arrayItems = [new ArrayItem($variable), new ArrayItem($anotherVariable)];
 
