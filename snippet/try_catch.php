@@ -13,7 +13,7 @@ $echo = new Echo_([new String_('one')]);
 $tryStmts = [$echo];
 
 $echo2 = new Echo_([new String_('two')]);
-$catch = new Catch_([new FullyQualified('CaughtType')], null, [$echo2]);
+$catch = new Catch_([new FullyQualified('SomeType')], null, [$echo2]);
 
 $echo3 = new Echo_([new String_('three')]);
 $finally = new Finally_([$echo3]);
