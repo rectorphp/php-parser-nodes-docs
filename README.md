@@ -779,7 +779,7 @@ return new ClassConstFetch($class, 'SOME_CONSTANT');
 ### Public Properties
 
  * `$class` - `/** @var Name|Expr Class name */`
- * `$name` - `/** @var Identifier|Error Constant name */`
+ * `$name` - `/** @var Identifier|Expr|Error Constant name */`
 
 <br>
 
@@ -1873,7 +1873,8 @@ public const SOME_CLASS_CONSTANT = 'default value';
 
  * `$flags` - `/** @var int Modifiers */`
  * `$consts` - `/** @var Node\Const_[] Constant declarations */`
- * `$attrGroups` - `/** @var Node\AttributeGroup[] */`
+ * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
+ * `$type` - `/** @var Node\Identifier|Node\Name|Node\ComplexType|null Type declaration */`
 
 <br>
 
