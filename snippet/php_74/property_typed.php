@@ -9,4 +9,4 @@ use PhpParser\Node\VarLikeIdentifier;
 
 $propertyProperty = new PropertyProperty(new VarLikeIdentifier('propertyName'));
 
-return new Property(Class_::MODIFIER_PUBLIC, [$propertyProperty], [], 'string');
+return new Property(\PhpParser\Modifiers::PUBLIC, [$propertyProperty], [], new \PhpParser\Node\Identifier('string'));

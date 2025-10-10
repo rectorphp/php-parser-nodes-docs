@@ -2,6 +2,74 @@
 
 Here you can find overview of commonly used nodes and how to build PHP code from them. For all nodes, [check php-parser code](https://github.com/nikic/PHP-Parser/tree/master/lib/PhpParser/Node).
 
+## `PhpParser\Node\ArrayItem`
+
+### Example PHP Code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Expr\ArrayItem;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\String_;
+
+$value = new Variable('Tom');
+$key = new String_('name');
+
+return new ArrayItem($value, $key);
+```
+
+↓
+
+```php
+'name' => $Tom
+```
+
+<br>
+
+### Public Properties
+
+ * `$key` - `/** @var null|Expr Key */`
+ * `$value` - `/** @var Expr Value */`
+ * `$byRef` - `/** @var bool Whether to assign by reference */`
+ * `$unpack` - `/** @var bool Whether to unpack the argument */`
+
+<br>
+
+## `PhpParser\Node\ClosureUse`
+
+### Example PHP Code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Expr\ClosureUse;
+use PhpParser\Node\Expr\Variable;
+
+$variable = new Variable('variableName');
+
+return new ClosureUse($variable);
+```
+
+↓
+
+```php
+$variableName
+```
+
+<br>
+
+### Public Properties
+
+ * `$var` - `/** @var Expr\Variable Variable to use */`
+ * `$byRef` - `/** @var bool Whether to use by reference */`
+
+<br>
+
 ## `PhpParser\Node\Const_`
 
 ### Example PHP Code
@@ -67,42 +135,6 @@ $variableName[0]
 
 <br>
 
-## `PhpParser\Node\Expr\ArrayItem`
-
-### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Expr\ArrayItem;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\String_;
-
-$value = new Variable('Tom');
-$key = new String_('name');
-
-return new ArrayItem($value, $key);
-```
-
-↓
-
-```php
-'name' => $Tom
-```
-
-<br>
-
-### Public Properties
-
- * `$key` - `/** @var null|Expr Key */`
- * `$value` - `/** @var Expr Value */`
- * `$byRef` - `/** @var bool Whether to assign by reference */`
- * `$unpack` - `/** @var bool Whether to unpack the argument */`
-
-<br>
-
 ## `PhpParser\Node\Expr\Array_`
 
 ### Example PHP Code
@@ -128,14 +160,14 @@ return new Array_([$arrayItem]);
 ↓
 
 ```php
-array('name' => $Tom)
+['name' => $Tom]
 ```
 
 <br>
 
 ### Public Properties
 
- * `$items` - `/** @var (ArrayItem|null)[] Items */`
+ * `$items` - `/** @var ArrayItem[] Items */`
 
 <br>
 
@@ -166,11 +198,11 @@ fn() => 1
 
 ### Public Properties
 
- * `$static` - `/** @var bool */`
- * `$byRef` - `/** @var bool */`
+ * `$static` - `/** @var bool Whether the closure is static */`
+ * `$byRef` - `/** @var bool Whether to return by reference */`
  * `$params` - `/** @var Node\Param[] */`
  * `$returnType` - `/** @var null|Node\Identifier|Node\Name|Node\ComplexType */`
- * `$expr` - `/** @var Expr */`
+ * `$expr` - `/** @var Expr Expression body */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] */`
 
 <br>
@@ -783,38 +815,6 @@ return new ClassConstFetch($class, 'SOME_CONSTANT');
 
 <br>
 
-## `PhpParser\Node\Expr\ClosureUse`
-
-### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Expr\ClosureUse;
-use PhpParser\Node\Expr\Variable;
-
-$variable = new Variable('variableName');
-
-return new ClosureUse($variable);
-```
-
-↓
-
-```php
-$variableName
-```
-
-<br>
-
-### Public Properties
-
- * `$var` - `/** @var Expr\Variable Variable to use */`
- * `$byRef` - `/** @var bool Whether to use by reference */`
-
-<br>
-
 ## `PhpParser\Node\Expr\ConstFetch`
 
 ### Example PHP Code
@@ -1084,7 +1084,7 @@ return new List_($arrayItems);
 ↓
 
 ```php
-list($variableName, $anotherVariableName)
+[$variableName, $anotherVariableName]
 ```
 
 <br>
@@ -1131,7 +1131,7 @@ match ($variableName) {
 
 ### Public Properties
 
- * `$cond` - `/** @var Node\Expr */`
+ * `$cond` - `/** @var Node\Expr Condition */`
  * `$arms` - `/** @var MatchArm[] */`
 
 <br>
@@ -1531,6 +1531,27 @@ throw 'some string'
 
 <br>
 
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Expr\Throw_;
+use PhpParser\Node\Scalar\String_;
+
+$string = new String_('some string');
+
+return new Throw_($string);
+```
+
+↓
+
+```php
+throw 'some string'
+```
+
+<br>
+
 ### Public Properties
 
  * `$expr` - `/** @var Node\Expr Expression */`
@@ -1594,8 +1615,8 @@ return new MatchArm($conds, $body);
 
 ### Public Properties
 
- * `$conds` - `/** @var null|Node\Expr[] */`
- * `$body` - `/** @var Node\Expr */`
+ * `$conds` - `/** @var null|list<Node\Expr> */`
+ * `$body` - ``
 
 <br>
 
@@ -1623,11 +1644,11 @@ shortName
 
 ### Public Properties
 
- * `$parts` - `/**
-     * @var string[] Parts of the name
-     * @deprecated Use getParts() instead
+ * `$name` - `/**
+     * @psalm-var non-empty-string
+     * @var string Name as string
      */`
- * `$specialClassNames` - ``
+ * `$specialClassNames` - `/** @var array<string, bool> */`
 
 <br>
 
@@ -1655,9 +1676,9 @@ return new FullyQualified('SomeNamespace\ShortName');
 
 ### Public Properties
 
- * `$parts` - `/**
-     * @var string[] Parts of the name
-     * @deprecated Use getParts() instead
+ * `$name` - `/**
+     * @psalm-var non-empty-string
+     * @var string Name as string
      */`
 
 <br>
@@ -1673,7 +1694,7 @@ declare(strict_types=1);
 
 use PhpParser\Node\NullableType;
 
-return new NullableType('SomeType');
+return new NullableType(new \PhpParser\Node\Name('SomeType'));
 ```
 
 ↓
@@ -1722,12 +1743,51 @@ $variableName
  * `$variadic` - `/** @var bool Whether this is a variadic argument */`
  * `$var` - `/** @var Expr\Variable|Expr\Error Parameter variable */`
  * `$default` - `/** @var null|Expr Default value */`
- * `$flags` - `/** @var int */`
+ * `$flags` - `/** @var int Optional visibility flags */`
  * `$attrGroups` - `/** @var AttributeGroup[] PHP attribute groups */`
+ * `$hooks` - `/** @var PropertyHook[] Property hooks for promoted properties */`
 
 <br>
 
-## `PhpParser\Node\Scalar\DNumber`
+## `PhpParser\Node\PropertyItem`
+
+### Example PHP Code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\PropertyProperty;
+
+$class = new Class_('ClassName');
+
+$propertyProperty = new PropertyProperty('someProperty');
+$property = new Property(Class_::MODIFIER_PRIVATE, [$propertyProperty]);
+
+$class->stmts[] = $property;
+
+return $propertyProperty;
+```
+
+↓
+
+```php
+$someProperty
+```
+
+<br>
+
+### Public Properties
+
+ * `$name` - `/** @var Node\VarLikeIdentifier Name */`
+ * `$default` - `/** @var null|Node\Expr Default */`
+
+<br>
+
+## `PhpParser\Node\Scalar\Float_`
 
 ### Example PHP Code
 
@@ -1755,36 +1815,7 @@ return new DNumber(10.5);
 
 <br>
 
-## `PhpParser\Node\Scalar\Encapsed`
-
-### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\Encapsed;
-
-return new Encapsed([new Variable('variableName')]);
-```
-
-↓
-
-```php
-"{$variableName}"
-```
-
-<br>
-
-### Public Properties
-
- * `$parts` - `/** @var Expr[] list of string parts */`
-
-<br>
-
-## `PhpParser\Node\Scalar\LNumber`
+## `PhpParser\Node\Scalar\Int_`
 
 ### Example PHP Code
 
@@ -1809,6 +1840,35 @@ return new LNumber(1000);
 ### Public Properties
 
  * `$value` - `/** @var int Number value */`
+
+<br>
+
+## `PhpParser\Node\Scalar\InterpolatedString`
+
+### Example PHP Code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\Encapsed;
+
+return new Encapsed([new Variable('variableName')]);
+```
+
+↓
+
+```php
+"{$variableName}"
+```
+
+<br>
+
+### Public Properties
+
+ * `$parts` - `/** @var (Expr|InterpolatedStringPart)[] list of string parts */`
 
 <br>
 
@@ -1837,7 +1897,39 @@ return new String_('some string');
 ### Public Properties
 
  * `$value` - `/** @var string String value */`
- * `$replacements` - ``
+ * `$replacements` - `/** @var array<string, string> Escaped character to its decoded value */`
+
+<br>
+
+## `PhpParser\Node\StaticVar`
+
+### Example PHP Code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\StaticVar;
+
+$variable = new Variable('variableName');
+
+return new StaticVar($variable);
+```
+
+↓
+
+```php
+$variableName
+```
+
+<br>
+
+### Public Properties
+
+ * `$var` - `/** @var Expr\Variable Variable */`
+ * `$default` - `/** @var null|Node\Expr Default value */`
 
 <br>
 
@@ -1930,7 +2022,7 @@ return $classMethod;
 ↓
 
 ```php
-private function methodName($paramName) : string
+private function methodName($paramName): string
 {
 }
 ```
@@ -1981,7 +2073,7 @@ public function methodName()
  * `$returnType` - `/** @var null|Node\Identifier|Node\Name|Node\ComplexType Return type */`
  * `$stmts` - `/** @var Node\Stmt[]|null Statements */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
- * `$magicNames` - ``
+ * `$magicNames` - `/** @var array<string, bool> */`
 
 <br>
 
@@ -2060,7 +2152,7 @@ final class ClassName extends \ParentClass
 
 ### Public Properties
 
- * `$flags` - `/** @var int Type */`
+ * `$flags` - `/** @var int Modifiers */`
  * `$extends` - `/** @var null|Node\Name Name of extended class */`
  * `$implements` - `/** @var Node\Name[] Names of implemented interfaces */`
  * `$name` - `/** @var Node\Identifier|null Name */`
@@ -2099,6 +2191,7 @@ const CONSTANT_IN_CLASS = 'default value';
 ### Public Properties
 
  * `$consts` - `/** @var Node\Const_[] Constant declarations */`
+ * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
 
 <br>
 
@@ -2130,7 +2223,7 @@ declare (strict_types=1);
 
 ### Public Properties
 
- * `$declares` - `/** @var DeclareDeclare[] List of declares */`
+ * `$declares` - `/** @var DeclareItem[] List of declares */`
  * `$stmts` - `/** @var Node\Stmt[]|null Statements */`
 
 <br>
@@ -2454,7 +2547,7 @@ use PhpParser\Node\VarLikeIdentifier;
 
 $propertyProperty = new PropertyProperty(new VarLikeIdentifier('propertyName'));
 
-return new Property(Class_::MODIFIER_PUBLIC, [$propertyProperty], [], 'string');
+return new Property(\PhpParser\Modifiers::PUBLIC, [$propertyProperty], [], new \PhpParser\Node\Identifier('string'));
 ```
 
 ↓
@@ -2513,79 +2606,10 @@ public static $firstProperty, $secondProperty;
 ### Public Properties
 
  * `$flags` - `/** @var int Modifiers */`
- * `$props` - `/** @var PropertyProperty[] Properties */`
+ * `$props` - `/** @var PropertyItem[] Properties */`
  * `$type` - `/** @var null|Identifier|Name|ComplexType Type declaration */`
  * `$attrGroups` - `/** @var Node\AttributeGroup[] PHP attribute groups */`
-
-<br>
-
-## `PhpParser\Node\Stmt\PropertyProperty`
-
-### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Property;
-use PhpParser\Node\Stmt\PropertyProperty;
-
-$class = new Class_('ClassName');
-
-$propertyProperty = new PropertyProperty('someProperty');
-$property = new Property(Class_::MODIFIER_PRIVATE, [$propertyProperty]);
-
-$class->stmts[] = $property;
-
-return $propertyProperty;
-```
-
-↓
-
-```php
-$someProperty
-```
-
-<br>
-
-### Public Properties
-
- * `$name` - `/** @var Node\VarLikeIdentifier Name */`
- * `$default` - `/** @var null|Node\Expr Default */`
-
-<br>
-
-## `PhpParser\Node\Stmt\StaticVar`
-
-### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Stmt\StaticVar;
-
-$variable = new Variable('variableName');
-
-return new StaticVar($variable);
-```
-
-↓
-
-```php
-$variableName
-```
-
-<br>
-
-### Public Properties
-
- * `$var` - `/** @var Expr\Variable Variable */`
- * `$default` - `/** @var null|Node\Expr Default value */`
+ * `$hooks` - `/** @var Node\PropertyHook[] Property hooks */`
 
 <br>
 
@@ -2655,37 +2679,6 @@ switch ($variableName) {
 
  * `$cond` - `/** @var Node\Expr Condition */`
  * `$cases` - `/** @var Case_[] Case list */`
-
-<br>
-
-## `PhpParser\Node\Stmt\Throw_`
-
-### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\Throw_;
-
-$string = new String_('some string');
-
-return new Throw_($string);
-```
-
-↓
-
-```php
-throw 'some string';
-```
-
-<br>
-
-### Public Properties
-
- * `$expr` - `/** @var Node\Expr Expression */`
 
 <br>
 
@@ -2894,8 +2887,8 @@ use UsedNamespace;
 
 ### Public Properties
 
- * `$type` - `/** @var int Type of alias */`
- * `$uses` - `/** @var UseUse[] Aliases */`
+ * `$type` - `/** @var self::TYPE_* Type of alias */`
+ * `$uses` - `/** @var UseItem[] Aliases */`
 
 <br>
 
