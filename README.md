@@ -1761,13 +1761,13 @@ declare(strict_types=1);
 
 use PhpParser\Node\Scalar\Float_;
 
-return new Float_(100);
+return new Float_(100.5);
 ```
 
 ↓
 
 ```php
-100.0
+100.5
 ```
 
 <br>
@@ -1919,6 +1919,42 @@ $variableName
 
  * `$var` - `/** @var Expr\Variable Variable */`
  * `$default` - `/** @var null|Node\Expr Default value */`
+
+<br>
+
+## `PhpParser\Node\Stmt\Block`
+
+### Example PHP Code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Stmt\Block;
+use PhpParser\Node\Stmt\Expression;
+
+$assign = new Assign(new Variable('someValue'), new LNumber(10000));
+
+return new Block([new Expression($assign)]);
+```
+
+↓
+
+```php
+{
+    $someValue = 10000;
+}
+```
+
+<br>
+
+### Public Properties
+
+ * `$stmts` - `/** @var Stmt[] Statements */`
 
 <br>
 
@@ -2580,6 +2616,38 @@ public string $propertyName;
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
+
+$propertyItem = new \PhpParser\Node\PropertyItem('someProperty');
+$property = new \PhpParser\Node\Stmt\Property(Modifiers::PUBLIC, [$propertyItem]);
+
+$plus = new \PhpParser\Node\Expr\BinaryOp\Plus(
+    new \PhpParser\Node\Expr\Variable('variable'),
+    new \PhpParser\Node\Scalar\Int_(100)
+);
+
+$getPropertyHook = new \PhpParser\Node\PropertyHook('getProperty', $plus);
+
+$property->hooks[] = $getPropertyHook;
+
+return $property;
+```
+
+↓
+
+```php
+public $someProperty {
+    getProperty => $variable + 100;
+}
+```
+
+<br>
+
+```php
+<?php
+
+declare(strict_types=1);
+
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\VarLikeIdentifier;
@@ -2731,28 +2799,6 @@ use \TraitName;
 ## `PhpParser\Node\Stmt\TraitUseAdaptation\Alias`
 
 ### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Modifiers;
-use PhpParser\Node\Name\FullyQualified;
-use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
-
-$traitFullyQualified = new FullyQualified('TraitName');
-
-return new Alias($traitFullyQualified, 'method', Modifiers::PUBLIC, 'aliasedMethod');
-```
-
-↓
-
-```php
-\TraitName::method as public aliasedMethod;
-```
-
-<br>
 
 ```php
 <?php

@@ -12,7 +12,7 @@ use Webmozart\Assert\Assert;
 
 final class NodeCodeSampleProvider
 {
-    private Standard $standardPrinter;
+    private readonly Standard $standardPrinter;
 
     public function __construct(
     ) {
