@@ -9,5 +9,6 @@ return ECSConfig::configure()
         __DIR__ . '/bin',
         __DIR__ . '/src',
         __DIR__ . '/tests',
+        __DIR__ . '/snippet'
     ])
     ->withPreparedSets(symplify: true, common: true, psr12: true);

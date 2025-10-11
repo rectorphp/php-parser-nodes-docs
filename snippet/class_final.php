@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Stmt\Class_;
 
 $class = new Class_('ClassName');
-$class->flags |= Class_::MODIFIER_FINAL;
+$class->flags |= Modifiers::FINAL;
 
 return $class;

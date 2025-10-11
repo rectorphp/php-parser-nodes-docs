@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\ArrowFunction;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$subNodes['expr'] = new LNumber(1);
+$subNodes['expr'] = new Int_(1);
 
 return new ArrowFunction($subNodes);

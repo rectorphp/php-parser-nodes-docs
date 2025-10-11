@@ -10,12 +10,13 @@ use Rector\PhpParserNodesDocs\Finder\PhpFilesFinder;
 use Rector\PhpParserNodesDocs\ValueObject\NodeCodeSample;
 use Webmozart\Assert\Assert;
 
-final class NodeCodeSampleProvider
+final readonly class NodeCodeSampleProvider
 {
+    private Standard $standardPrinter;
+
     public function __construct(
-        private readonly Standard $standard,
-        private readonly PhpFilesFinder $phpFilesFinder,
     ) {
+        $this->standardPrinter = new Standard();
     }
 
     /**
@@ -23,23 +24,23 @@ final class NodeCodeSampleProvider
      */
     public function provide(): array
     {
-        $phpFilePaths = $this->phpFilesFinder->findPhpFiles([__DIR__ . '/../snippet']);
+        $phpFileInfos = PhpFilesFinder::find([__DIR__ . '/../snippet']);
 
         $nodeCodeSamplesByNodeClass = [];
 
-        foreach ($phpFilePaths as $phpFilePath) {
+        foreach ($phpFileInfos as $phpFileInfo) {
             /** @var Node $node */
-            $node = include $phpFilePath;
+            $node = include $phpFileInfo->getRealPath();
+
+            $errorMessage = sprintf('The "%s" file must return "%s" instance ', $phpFileInfo, Node::class);
+            Assert::isInstanceOf($node, Node::class, $errorMessage);
 
             /** @var string $fileContents */
-            $fileContents = file_get_contents($phpFilePath);
-
-            $errorMessage = sprintf('The "%s" file must return "%s" instance ', $phpFilePath, Node::class);
-            Assert::isInstanceOf($node, Node::class, $errorMessage);
+            $fileContents = $phpFileInfo->getContents();
 
             $nodeClass = $node::class;
 
-            $printedContent = $this->standard->prettyPrint([$node]);
+            $printedContent = $this->standardPrinter->prettyPrint([$node]);
 
             $nodeCodeSamplesByNodeClass[$nodeClass][] = new NodeCodeSample($fileContents, $printedContent);
         }

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt\Declare_;
 use PhpParser\Node\Stmt\DeclareDeclare;
 
-$declareDeclare = new DeclareDeclare('strict_types', new LNumber(1));
+$declareDeclare = new DeclareDeclare('strict_types', new Int_(1));
 
 return new Declare_([$declareDeclare]);
