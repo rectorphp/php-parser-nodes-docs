@@ -5,4 +5,6 @@ parameters:
         - bin
         - src
         - tests
+        - snippet
+
     treatPhpDocTypesAsCertain: false

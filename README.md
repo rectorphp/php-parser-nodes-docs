@@ -1750,65 +1750,9 @@ $variableName
 
 <br>
 
-## `PhpParser\Node\PropertyItem`
-
-### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\Property;
-use PhpParser\Node\Stmt\PropertyProperty;
-
-$class = new Class_('ClassName');
-
-$propertyProperty = new PropertyProperty('someProperty');
-$property = new Property(Class_::MODIFIER_PRIVATE, [$propertyProperty]);
-
-$class->stmts[] = $property;
-
-return $propertyProperty;
-```
-
-↓
-
-```php
-$someProperty
-```
-
-<br>
-
-### Public Properties
-
- * `$name` - `/** @var Node\VarLikeIdentifier Name */`
- * `$default` - `/** @var null|Node\Expr Default */`
-
-<br>
-
 ## `PhpParser\Node\Scalar\Float_`
 
 ### Example PHP Code
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Scalar\DNumber;
-
-return new DNumber(10.5);
-```
-
-↓
-
-```php
-10.5
-```
-
-<br>
 
 ```php
 <?php
@@ -1856,24 +1800,6 @@ return new Int_(100);
 
 <br>
 
-```php
-<?php
-
-declare(strict_types=1);
-
-use PhpParser\Node\Scalar\LNumber;
-
-return new LNumber(1000);
-```
-
-↓
-
-```php
-1000
-```
-
-<br>
-
 ### Public Properties
 
  * `$value` - `/** @var int Number value */`
@@ -1906,6 +1832,32 @@ return new Encapsed([new Variable('variableName')]);
 ### Public Properties
 
  * `$parts` - `/** @var (Expr|InterpolatedStringPart)[] list of string parts */`
+
+<br>
+
+## `PhpParser\Node\Scalar\MagicConst\Property`
+
+### Example PHP Code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Scalar\MagicConst\Property;
+
+return new Property();
+```
+
+↓
+
+```php
+__PROPERTY__
+```
+
+<br>
+
+
 
 <br>
 
@@ -1981,13 +1933,12 @@ declare(strict_types=1);
 
 use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 
 $defaultValue = new String_('default value');
 $const = new Const_('SOME_CLASS_CONSTANT', $defaultValue);
 
-return new ClassConst([$const], Class_::MODIFIER_PUBLIC);
+return new ClassConst([$const], \PhpParser\Modifiers::PUBLIC);
 ```
 
 ↓
@@ -2016,11 +1967,10 @@ public const SOME_CLASS_CONSTANT = 'default value';
 
 declare(strict_types=1);
 
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 
 $classMethod = new ClassMethod('methodName');
-$classMethod->flags = Class_::MODIFIER_PUBLIC;
+$classMethod->flags = \PhpParser\Modifiers::PUBLIC;
 
 return $classMethod;
 ```
@@ -2043,11 +1993,10 @@ declare(strict_types=1);
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 
 $classMethod = new ClassMethod('methodName');
-$classMethod->flags = Class_::MODIFIER_PRIVATE;
+$classMethod->flags = \PhpParser\Modifiers::PRIVATE;
 
 $param = new Param(new Variable('paramName'));
 $classMethod->params = [$param];
@@ -2074,12 +2023,11 @@ declare(strict_types=1);
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\LNumber;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 
 $classMethod = new ClassMethod('methodName');
-$classMethod->flags = Class_::MODIFIER_PUBLIC;
+$classMethod->flags = \PhpParser\Modifiers::PUBLIC;
 
 $variable = new Variable('some');
 $number = new LNumber(10000);
@@ -2146,7 +2094,7 @@ declare(strict_types=1);
 use PhpParser\Node\Stmt\Class_;
 
 $class = new Class_('ClassName');
-$class->flags |= Class_::MODIFIER_FINAL;
+$class->flags |= \PhpParser\Modifiers::FINAL;
 
 return $class;
 ```
@@ -2166,12 +2114,44 @@ final class ClassName
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\PropertyProperty;
+
+$class = new Class_(new Identifier('ClassName'));
+
+$propertyProperty = new PropertyProperty('someProperty');
+$property = new Property(Modifiers::PRIVATE, [$propertyProperty]);
+
+$class->stmts[] = $property;
+
+return $class;
+```
+
+↓
+
+```php
+class ClassName
+{
+    private $someProperty;
+}
+```
+
+<br>
+
+```php
+<?php
+
+declare(strict_types=1);
+
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 
 $class = new Class_('ClassName');
 
-$class->flags = Class_::MODIFIER_FINAL;
+$class->flags = \PhpParser\Modifiers::FINAL;
 $class->extends = new FullyQualified('ParentClass');
 
 return $class;
@@ -2600,14 +2580,13 @@ public string $propertyName;
 
 declare(strict_types=1);
 
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\VarLikeIdentifier;
 
 $propertyProperty = new PropertyProperty(new VarLikeIdentifier('propertyName'));
 
-return new Property(Class_::MODIFIER_PUBLIC, [$propertyProperty]);
+return new Property(\PhpParser\Modifiers::PUBLIC, [$propertyProperty]);
 ```
 
 ↓
@@ -2623,13 +2602,13 @@ public $propertyName;
 
 declare(strict_types=1);
 
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Modifiers;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 
 $propertyProperties = [new PropertyProperty('firstProperty'), new PropertyProperty('secondProperty')];
 
-return new Property(Class_::MODIFIER_STATIC | Class_::MODIFIER_PUBLIC, $propertyProperties);
+return new Property(Modifiers::STATIC | Modifiers::PUBLIC, $propertyProperties);
 ```
 
 ↓
@@ -2758,13 +2737,35 @@ use \TraitName;
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Name\FullyQualified;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
 
 $traitFullyQualified = new FullyQualified('TraitName');
 
-return new Alias($traitFullyQualified, 'method', Class_::MODIFIER_PUBLIC, 'aliasedMethod');
+return new Alias($traitFullyQualified, 'method', Modifiers::PUBLIC, 'aliasedMethod');
+```
+
+↓
+
+```php
+\TraitName::method as public aliasedMethod;
+```
+
+<br>
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Modifiers;
+use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
+
+$traitFullyQualified = new FullyQualified('TraitName');
+
+return new Alias($traitFullyQualified, 'method', Modifiers::PUBLIC, 'aliasedMethod');
 ```
 
 ↓
