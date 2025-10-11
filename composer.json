@@ -15,7 +15,9 @@
         "symplify/easy-coding-standard": "^12.6",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^12.4",
-        "rector/rector": "^2.2.2"
+        "rector/rector": "^2.2.2",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/extension-installer": "^1.4"
     },
     "autoload": {
         "psr-4": {
@@ -32,5 +34,10 @@
         "fix-cs": "vendor/bin/ecs check --fix --ansi",
         "phpstan": "vendor/bin/phpstan analyse --ansi",
         "build": "bin/console dump-nodes"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     }
 }
