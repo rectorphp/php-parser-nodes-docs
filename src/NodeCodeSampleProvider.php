@@ -41,10 +41,7 @@ final class NodeCodeSampleProvider
 
             $printedContent = $this->standard->prettyPrint([$node]);
 
-            $nodeCodeSamplesByNodeClass[$nodeClass][] = new NodeCodeSample(
-                $fileContents,
-                $printedContent
-            );
+            $nodeCodeSamplesByNodeClass[$nodeClass][] = new NodeCodeSample($fileContents, $printedContent);
         }
 
         ksort($nodeCodeSamplesByNodeClass);

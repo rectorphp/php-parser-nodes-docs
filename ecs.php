@@ -3,19 +3,11 @@
 declare(strict_types=1);
 
 use Symplify\EasyCodingStandard\Config\ECSConfig;
-use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return ECSConfig::configure()
-    ->with
-return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->paths([
+    ->withPaths([
+        __DIR__ . '/bin',
         __DIR__ . '/src',
         __DIR__ . '/tests',
-    ]);
-
-    $ecsConfig->sets([
-        SetList::STRICT,
-        SetList::COMMON,
-        SetList::PSR_12,
-    ]);
-};
+    ])
+    ->withPreparedSets(symplify: true, common: true, psr12: true);
