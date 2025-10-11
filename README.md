@@ -1810,6 +1810,24 @@ return new DNumber(10.5);
 
 <br>
 
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Scalar\Float_;
+
+return new Float_(100);
+```
+
+↓
+
+```php
+100.0
+```
+
+<br>
+
 ### Public Properties
 
  * `$value` - `/** @var float Number value */`
@@ -1819,6 +1837,24 @@ return new DNumber(10.5);
 ## `PhpParser\Node\Scalar\Int_`
 
 ### Example PHP Code
+
+```php
+<?php
+
+declare(strict_types=1);
+
+use PhpParser\Node\Scalar\Int_;
+
+return new Int_(100);
+```
+
+↓
+
+```php
+100
+```
+
+<br>
 
 ```php
 <?php
