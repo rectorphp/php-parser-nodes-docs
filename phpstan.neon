@@ -5,10 +5,4 @@ parameters:
         - bin
         - src
         - tests
-
     treatPhpDocTypesAsCertain: false
-
-    ignoreErrors:
-        -
-            path: src/Finder/PhpFilesFinder.php
-            identifier: varTag.nativeType

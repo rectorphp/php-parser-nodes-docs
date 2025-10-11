@@ -4,57 +4,25 @@ declare(strict_types=1);
 
 namespace Rector\PhpParserNodesDocs\Finder;
 
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Webmozart\Assert\Assert;
 
 final class PhpFilesFinder
 {
     /**
      * @param string[] $paths
-     * @return string[]
+     * @return SplFileInfo[]
      */
-    public function findPhpFiles(array $paths): array
+    public static function find(array $paths): array
     {
-        Assert::allFileExists($paths);
+        Assert::allString($paths);
 
-        // fallback to config paths
-        $filePaths = [];
+        $finder = Finder::create()
+            ->name('*.php')
+            ->sortByName()
+            ->in($paths);
 
-        foreach ($paths as $path) {
-            if (is_file($path)) {
-                $filePaths[] = $path;
-            } else {
-                $currentFilePaths = $this->findFilesUsingGlob($path);
-                $filePaths = array_merge($filePaths, $currentFilePaths);
-            }
-        }
-
-        sort($filePaths);
-
-        Assert::allString($filePaths);
-        Assert::allFileExists($filePaths);
-
-        return $filePaths;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function findFilesUsingGlob(string $directory): array
-    {
-        // Search for php files in the current directory
-        /** @var list<string> $phpFiles */
-        $phpFiles = glob($directory . '/*.php');
-
-        // recursively search in subdirectories
-
-        /** @var string[] $subdirectories */
-        $subdirectories = glob($directory . '/*', GLOB_ONLYDIR);
-
-        foreach ($subdirectories as $subdirectory) {
-            // Merge the results from subdirectories
-            $phpFiles = array_merge($phpFiles, $this->findFilesUsingGlob($subdirectory));
-        }
-
-        return $phpFiles;
+        return iterator_to_array($finder->getIterator());
     }
 }
