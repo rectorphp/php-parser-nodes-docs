@@ -10,9 +10,9 @@ use Rector\PhpParserNodesDocs\Finder\PhpFilesFinder;
 use Rector\PhpParserNodesDocs\ValueObject\NodeCodeSample;
 use Webmozart\Assert\Assert;
 
-final class NodeCodeSampleProvider
+final readonly class NodeCodeSampleProvider
 {
-    private readonly Standard $standardPrinter;
+    private Standard $standardPrinter;
 
     public function __construct(
     ) {

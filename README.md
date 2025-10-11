@@ -112,10 +112,10 @@ declare(strict_types=1);
 
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
 $variable = new Variable('variableName');
-$dimension = new LNumber(0);
+$dimension = new Int_(0);
 
 return new ArrayDimFetch($variable, $dimension);
 ```
@@ -181,9 +181,9 @@ return new Array_([$arrayItem]);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\ArrowFunction;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$subNodes['expr'] = new LNumber(1);
+$subNodes['expr'] = new Int_(1);
 
 return new ArrowFunction($subNodes);
 ```
@@ -275,10 +275,10 @@ $someObject->someProperty = 'some value'
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\AssignOp\Coalesce;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Coalesce($left, $right);
 ```
@@ -308,10 +308,10 @@ return new Coalesce($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\AssignOp\Concat;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Concat($left, $right);
 ```
@@ -341,10 +341,10 @@ return new Concat($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\BooleanAnd;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new BooleanAnd($left, $right);
 ```
@@ -374,10 +374,10 @@ return new BooleanAnd($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\Coalesce;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Coalesce($left, $right);
 ```
@@ -407,10 +407,10 @@ return new Coalesce($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Concat($left, $right);
 ```
@@ -440,10 +440,10 @@ return new Concat($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\Equal;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Equal($left, $right);
 ```
@@ -473,10 +473,10 @@ return new Equal($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Identical($left, $right);
 ```
@@ -506,10 +506,10 @@ return new Identical($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\Minus;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Minus($left, $right);
 ```
@@ -539,10 +539,10 @@ return new Minus($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\NotEqual;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new NotEqual($left, $right);
 ```
@@ -572,10 +572,10 @@ return new NotEqual($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\NotIdentical;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new NotIdentical($left, $right);
 ```
@@ -605,10 +605,10 @@ return new NotIdentical($left, $right);
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\Spaceship;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Spaceship($left, $right);
 ```
@@ -1107,13 +1107,13 @@ declare(strict_types=1);
 use PhpParser\Node\Expr\Match_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\MatchArm;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 
 $variable = new Variable('variableName');
 
 $body = new String_('yes');
-$cond = new LNumber(1);
+$cond = new Int_(1);
 $matchArm = new MatchArm([$cond], $body);
 
 return new Match_($variable, [$matchArm]);
@@ -1596,10 +1596,10 @@ $variableName
 declare(strict_types=1);
 
 use PhpParser\Node\MatchArm;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 
-$conds = [new LNumber(1)];
+$conds = [new Int_(1)];
 $body = new String_('yes');
 
 return new MatchArm($conds, $body);
@@ -1933,11 +1933,11 @@ declare(strict_types=1);
 
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt\Block;
 use PhpParser\Node\Stmt\Expression;
 
-$assign = new Assign(new Variable('someValue'), new LNumber(10000));
+$assign = new Assign(new Variable('someValue'), new Int_(10000));
 
 return new Block([new Expression($assign)]);
 ```
@@ -1967,6 +1967,7 @@ return new Block([new Expression($assign)]);
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
@@ -1974,7 +1975,7 @@ use PhpParser\Node\Stmt\ClassConst;
 $defaultValue = new String_('default value');
 $const = new Const_('SOME_CLASS_CONSTANT', $defaultValue);
 
-return new ClassConst([$const], \PhpParser\Modifiers::PUBLIC);
+return new ClassConst([$const], Modifiers::PUBLIC);
 ```
 
 ↓
@@ -2003,10 +2004,11 @@ public const SOME_CLASS_CONSTANT = 'default value';
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Stmt\ClassMethod;
 
 $classMethod = new ClassMethod('methodName');
-$classMethod->flags = \PhpParser\Modifiers::PUBLIC;
+$classMethod->flags = Modifiers::PUBLIC;
 
 return $classMethod;
 ```
@@ -2026,13 +2028,14 @@ public function methodName()
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 
 $classMethod = new ClassMethod('methodName');
-$classMethod->flags = \PhpParser\Modifiers::PRIVATE;
+$classMethod->flags = Modifiers::PRIVATE;
 
 $param = new Param(new Variable('paramName'));
 $classMethod->params = [$param];
@@ -2056,17 +2059,18 @@ private function methodName($paramName): string
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 
 $classMethod = new ClassMethod('methodName');
-$classMethod->flags = \PhpParser\Modifiers::PUBLIC;
+$classMethod->flags = Modifiers::PUBLIC;
 
 $variable = new Variable('some');
-$number = new LNumber(10000);
+$number = new Int_(10000);
 $assign = new Assign($variable, $number);
 
 $classMethod->stmts[] = new Expression($assign);
@@ -2127,10 +2131,11 @@ class ClassName
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Stmt\Class_;
 
 $class = new Class_('ClassName');
-$class->flags |= \PhpParser\Modifiers::FINAL;
+$class->flags |= Modifiers::FINAL;
 
 return $class;
 ```
@@ -2182,12 +2187,13 @@ class ClassName
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Class_;
 
 $class = new Class_('ClassName');
 
-$class->flags = \PhpParser\Modifiers::FINAL;
+$class->flags = Modifiers::FINAL;
 $class->extends = new FullyQualified('ParentClass');
 
 return $class;
@@ -2257,11 +2263,11 @@ const CONSTANT_IN_CLASS = 'default value';
 
 declare(strict_types=1);
 
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt\Declare_;
 use PhpParser\Node\Stmt\DeclareDeclare;
 
-$declareDeclare = new DeclareDeclare('strict_types', new LNumber(1));
+$declareDeclare = new DeclareDeclare('strict_types', new Int_(1));
 
 return new Declare_([$declareDeclare]);
 ```
@@ -2593,6 +2599,7 @@ labelName:
 
 declare(strict_types=1);
 
+use PhpParser\Node\Identifier;
 use PhpParser\Modifiers;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
@@ -2600,7 +2607,7 @@ use PhpParser\Node\VarLikeIdentifier;
 
 $propertyProperty = new PropertyProperty(new VarLikeIdentifier('propertyName'));
 
-return new Property(Modifiers::PUBLIC, [$propertyProperty], [], new \PhpParser\Node\Identifier('string'));
+return new Property(Modifiers::PUBLIC, [$propertyProperty], [], new Identifier('string'));
 ```
 
 ↓
@@ -2616,17 +2623,23 @@ public string $propertyName;
 
 declare(strict_types=1);
 
+use PhpParser\Node\PropertyItem;
+use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Expr\BinaryOp\Plus;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\Int_;
+use PhpParser\Node\PropertyHook;
 use PhpParser\Modifiers;
 
-$propertyItem = new \PhpParser\Node\PropertyItem('someProperty');
-$property = new \PhpParser\Node\Stmt\Property(Modifiers::PUBLIC, [$propertyItem]);
+$propertyItem = new PropertyItem('someProperty');
+$property = new Property(Modifiers::PUBLIC, [$propertyItem]);
 
-$plus = new \PhpParser\Node\Expr\BinaryOp\Plus(
-    new \PhpParser\Node\Expr\Variable('variable'),
-    new \PhpParser\Node\Scalar\Int_(100)
+$plus = new Plus(
+    new Variable('variable'),
+    new Int_(100)
 );
 
-$getPropertyHook = new \PhpParser\Node\PropertyHook('getProperty', $plus);
+$getPropertyHook = new PropertyHook('getProperty', $plus);
 
 $property->hooks[] = $getPropertyHook;
 
@@ -2648,13 +2661,14 @@ public $someProperty {
 
 declare(strict_types=1);
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\VarLikeIdentifier;
 
 $propertyProperty = new PropertyProperty(new VarLikeIdentifier('propertyName'));
 
-return new Property(\PhpParser\Modifiers::PUBLIC, [$propertyProperty]);
+return new Property(Modifiers::PUBLIC, [$propertyProperty]);
 ```
 
 ↓
@@ -2739,12 +2753,12 @@ static $static;
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt\Case_;
 use PhpParser\Node\Stmt\Switch_;
 
 $cond = new Variable('variableName');
-$cases = [new Case_(new LNumber(1))];
+$cases = [new Case_(new Int_(1))];
 
 return new Switch_($cond, $cases);
 ```

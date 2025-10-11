@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rector\PhpParserNodesDocs\ValueObject;
 
-final class NodeCodeSample
+final readonly class NodeCodeSample
 {
-    private readonly string $phpCode;
+    private string $phpCode;
 
-    private readonly string $printedContent;
+    private string $printedContent;
 
     public function __construct(string $phpCode, string $printedContent)
     {

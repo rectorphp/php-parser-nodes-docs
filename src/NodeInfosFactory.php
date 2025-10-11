@@ -10,11 +10,11 @@ use Rector\PhpParserNodesDocs\ValueObject\NodeInfo;
 /**
  * @see \Rector\PhpParserNodesDocs\Tests\NodeInfosFactoryTest
  */
-final class NodeInfosFactory
+final readonly class NodeInfosFactory
 {
     public function __construct(
-        private readonly NodeCodeSampleProvider $nodeCodeSampleProvider,
-        private readonly NodeInfoSorter $nodeInfoSorter
+        private NodeCodeSampleProvider $nodeCodeSampleProvider,
+        private NodeInfoSorter $nodeInfoSorter
     ) {
     }
 
