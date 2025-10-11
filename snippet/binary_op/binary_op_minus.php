@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use PhpParser\Node\Expr\BinaryOp\Minus;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-$left = new LNumber(5);
-$right = new LNumber(10);
+$left = new Int_(5);
+$right = new Int_(10);
 
 return new Minus($left, $right);
