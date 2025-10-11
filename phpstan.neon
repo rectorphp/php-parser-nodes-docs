@@ -1,6 +1,14 @@
 parameters:
-    level: max
+    level: 8
 
     paths:
+        - bin
         - src
         - tests
+
+    treatPhpDocTypesAsCertain: false
+
+    ignoreErrors:
+        -
+            path: src/Finder/PhpFilesFinder.php
+            identifier: varTag.nativeType
