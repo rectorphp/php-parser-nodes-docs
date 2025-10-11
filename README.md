@@ -1,4 +1,4 @@
-# Node Overview
+# Node Overview for PHP-Parser 5.6 (2025)
 
 Here you can find overview of commonly used nodes and how to build PHP code from them. For all nodes, [check php-parser code](https://github.com/nikic/PHP-Parser/tree/master/lib/PhpParser/Node).
 
@@ -1692,9 +1692,10 @@ return new FullyQualified('SomeNamespace\ShortName');
 
 declare(strict_types=1);
 
+use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 
-return new NullableType(new \PhpParser\Node\Name('SomeType'));
+return new NullableType(new Name('SomeType'));
 ```
 
 ↓
@@ -2540,14 +2541,14 @@ labelName:
 
 declare(strict_types=1);
 
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Modifiers;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\VarLikeIdentifier;
 
 $propertyProperty = new PropertyProperty(new VarLikeIdentifier('propertyName'));
 
-return new Property(\PhpParser\Modifiers::PUBLIC, [$propertyProperty], [], new \PhpParser\Node\Identifier('string'));
+return new Property(Modifiers::PUBLIC, [$propertyProperty], [], new \PhpParser\Node\Identifier('string'));
 ```
 
 ↓

@@ -15,7 +15,7 @@ jobs:
 
                     -
                         name: 'Bare Run'
-                        run: bin/dump-nodes.php
+                        run: php bin/dump-nodes.php
 
                     -
                         name: 'ECS'

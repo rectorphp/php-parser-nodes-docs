@@ -15,7 +15,7 @@ final class MarkdownNodeInfosPrinter
     public function print(array $nodeInfos): string
     {
         $contentLines = [];
-        $contentLines[] = '# Node Overview';
+        $contentLines[] = '# Node Overview for PHP-Parser 5.6 (2025)';
         $contentLines[] = 'Here you can find overview of commonly used nodes and how to build PHP code from them. For all nodes, [check php-parser code](https://github.com/nikic/PHP-Parser/tree/master/lib/PhpParser/Node).';
 
         foreach ($nodeInfos as $nodeInfo) {
