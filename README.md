@@ -2599,8 +2599,8 @@ labelName:
 
 declare(strict_types=1);
 
-use PhpParser\Node\Identifier;
 use PhpParser\Modifiers;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\VarLikeIdentifier;
@@ -2623,21 +2623,18 @@ public string $propertyName;
 
 declare(strict_types=1);
 
-use PhpParser\Node\PropertyItem;
-use PhpParser\Node\Stmt\Property;
+use PhpParser\Modifiers;
 use PhpParser\Node\Expr\BinaryOp\Plus;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\PropertyHook;
-use PhpParser\Modifiers;
+use PhpParser\Node\PropertyItem;
+use PhpParser\Node\Scalar\Int_;
+use PhpParser\Node\Stmt\Property;
 
 $propertyItem = new PropertyItem('someProperty');
 $property = new Property(Modifiers::PUBLIC, [$propertyItem]);
 
-$plus = new Plus(
-    new Variable('variable'),
-    new Int_(100)
-);
+$plus = new Plus(new Variable('variable'), new Int_(100));
 
 $getPropertyHook = new PropertyHook('getProperty', $plus);
 
